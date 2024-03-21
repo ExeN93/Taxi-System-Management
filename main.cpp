@@ -10,6 +10,9 @@
 int main() {
     setlocale(LC_ALL, "");
     TaxiCompany company;
+    company.drivers = nullptr;
+    company.cars = nullptr;
+    company.orders = nullptr;
 
     int choice;
     bool exit = false;
@@ -21,30 +24,42 @@ int main() {
 
         switch (choice) {
             case 1:
-                hireDriver(company);
+                hireDriver(company.drivers, company.driverCount);
                 break;
             case 2:
-                addCar(company);
+                deleteDriver(company.drivers, company.driverCount);
                 break;
             case 3:
-                placeOrder(company);
+                addCar(company.cars, company.carCount);
                 break;
             case 4:
-                showDrivers(company);
+                deleteCar(company.cars, company.carCount);
                 break;
             case 5:
-                showOrders(company);
+                placeOrder(company.orders, company.orderCount);
                 break;
             case 6:
-                showCars(company);
+                deleteAllOrders(company.orders, company.orderCount);
                 break;
             case 7:
-                cout << "Całkowity zarobek: " << calculateTotalEarnings(company) << endl;
+                showDrivers(company);
                 break;
             case 8:
-                generateAllData(company);
+                showOrders(company);
                 break;
             case 9:
+                showCars(company);
+                break;
+            case 10:
+                cout << "Całkowity zarobek: " << calculateTotalEarnings(company) << endl << endl;
+                break;
+            case 11:
+                generateAllData(company);
+                break;
+            case 12:
+                parsingPlaceOrder (company.orders, company.orderCount);
+                break;
+            case 13:
                 exit = true;
                 clearMemory(company);
                 break;

@@ -12,64 +12,52 @@
 string_view imiona[8] = { "Adam", "Anna", "Jan", "Maria", "Piotr", "Ewa", "Krzysztof", "Agnieszka" };
 string_view nazwiska[8] = { "Nowak", "Kowalski", "Wisniewski", "Wojcik", "Kowalczyk", "Kaminski", "Lewandowski", "Zielinska" };
 string_view markiAut[6] = { "AUDI", "BMW", "TOYOTA", "MERCEDES", "VOLVO", "HYUNDAI" };
-string_view modeleAut[6] = { "A4", "A6", "SERIA 5", "SERIA 3", "SERIA 1", "A3" };
-string_view numerRejestracyjnyAuta[7] = { "ZDR 20332", "ZS 23213", "WE 32323", "ZKO 32313", "ZGR SA323", "DW XYZ23", "EL 32132"};
+string_view modeleAut[6] = { "A4", "A6", "A8", "A2", "A7", "A3" };
+string_view numerRejestracyjnyAuta[7] = { "20332", "23213", "32323", "32313", "55555", "55523", "32132"};
 string_view miejscaDocelowe[7] = { "Stocznia", "Kołątaja", "Bukowe", "Chopina", "Jaśminowa", "Meksyk", "Arkońska"};
-string_view miejscaOdbioru[7] = { "Stocznia", "Kołątaja", "Bukowe", "Chopina", "Jaśminowa", "Meksyk", "Arkońska"};
+string_view miejscaOdbioru[7] = { "Portowa", "Mieszka", "Potulicka", "Felczaka", "Pleciuga", "Klonowica", "Wernyhory"};
 
 void generateAllData(TaxiCompany& company) {
     static random_device rd;
     static default_random_engine engine(rd());
     static uniform_int_distribution<int> num(5, 15);
     int size = num(engine);
+    Driver** newDriver = new Driver * [size];
     for(int i=0; i<size; i++) {
-        if (company.driverCount >= MAX_DRIVERS) {
-                cout << "Nie można dodać więcej kierowców. Limit osiągnięty." << endl;
-                return;
-            }
-        Driver* newDriver = new Driver;
-        
+        newDriver[i] = new Driver;
         static uniform_int_distribution<int> imie(0, 7);
         static uniform_int_distribution<int> nazwisko(0, 7);
         size_t indexImie = imie(engine);
         size_t indexNazwisko = nazwisko(engine);
-        newDriver->driverName.firstName = imiona[indexImie];
-        newDriver->driverName.lastName = nazwiska[indexNazwisko];
+        newDriver[i]->driverName.firstName = imiona[indexImie];
+        newDriver[i]->driverName.lastName = nazwiska[indexNazwisko];
         
         static uniform_int_distribution<int> numerLicencji(0, 99999);
-        newDriver->licenseNumber = to_string(numerLicencji(engine));
+        newDriver[i]->licenseNumber = numerLicencji(engine);
         
         static uniform_int_distribution<int> doswiadczenie(0, 99);
-        newDriver->experience = doswiadczenie(engine);
+        newDriver[i]->experience = doswiadczenie(engine);
         
-        company.drivers[company.driverCount++] = newDriver;
         cout << "Dodano nowego kierowcę." << endl;
     }
+    Car** newCar = new Car * [size];
     for(int i=0; i<size; i++) {
-        if (company.carCount >= MAX_CARS) {
-                cout << "Nie można dodać więcej aut. Limit osiągnięty." << endl;
-                return;
-            }
-        Car* newCar = new Car;
+        newCar[i] = new Car;
         static uniform_int_distribution<int> marka(0, 5);
         static uniform_int_distribution<int> model(0, 5);
         static uniform_int_distribution<int> numerRejestracyjny(0, 6);
         size_t indexMarkaAuta = marka(engine);
         size_t indexModelAuta = model(engine);
         size_t indexNumerRejestracyjnyAuta = numerRejestracyjny(engine);
-        newCar->brand = markiAut[indexMarkaAuta];
-        newCar->model = modeleAut[indexModelAuta];
-        newCar->plateNumber = numerRejestracyjnyAuta[indexNumerRejestracyjnyAuta];
+        newCar[i]->brand = markiAut[indexMarkaAuta];
+        newCar[i]->model = modeleAut[indexModelAuta];
+        newCar[i]->plateNumber = numerRejestracyjnyAuta[indexNumerRejestracyjnyAuta];
         
-        company.cars[company.carCount++] = newCar;
         cout << "Dodano nowy samochód." << endl;
     }
+    Order** newOrder = new Order * [size];
     for(int i=0; i<size; i++) {
-        if (company.orderCount >= MAX_ORDERS) {
-                cout << "Nie można dodać więcej zamówień. Limit osiągnięty." << endl;
-                return;
-            }
-        Order* newOrder = new Order;
+        newOrder[i] = new Order;
         static uniform_int_distribution<int> imie(0, 7);
         static uniform_int_distribution<int> nazwisko(0, 7);
         static uniform_int_distribution<int> miejsceOdbioru(0, 6);
@@ -78,19 +66,94 @@ void generateAllData(TaxiCompany& company) {
         size_t indexNazwisko = nazwisko(engine);
         size_t indexMiejsceOdbioru = miejsceOdbioru(engine);
         size_t indexMiejsceDocelowe = miejsceDocelowe(engine);
-        newOrder->customerName.firstName = imiona[indexImie];
-        newOrder->customerName.lastName = nazwiska[indexNazwisko];
-        newOrder->pickupLocation = miejscaOdbioru[indexMiejsceOdbioru];
-        newOrder->dropoffLocation = miejscaDocelowe[indexMiejsceDocelowe];
+        newOrder[i]->customerName.firstName = imiona[indexImie];
+        newOrder[i]->customerName.lastName = nazwiska[indexNazwisko];
+        newOrder[i]->pickupLocation = miejscaOdbioru[indexMiejsceOdbioru];
+        newOrder[i]->dropoffLocation = miejscaDocelowe[indexMiejsceDocelowe];
     
         static uniform_int_distribution<int> kwota(0, 100);
-        newOrder->amount = kwota(engine);
+        newOrder[i]->amount = kwota(engine);
     
-        newOrder->completed = false;
+        newOrder[i]->completed = false;
         
-        company.orders[company.orderCount++] = newOrder;
         cout << "Dodano nowe zamówienie." << endl;
     }
+    company.cars = newCar;
+    company.drivers = newDriver;
+    company.orders = newOrder;
+    company.carCount = size;
+    company.driverCount = size;
+    company.orderCount = size;
+    cout << "Poprawnie wygenerowano bazę." << endl << endl;
 }
 
-
+void parsingPlaceOrder(Order**& order, int &size) {
+    Order** newOrder = new Order * [size + 1];
+    cout << "1. Imię 2. Nazwisko 3. Miejsce odbioru 4. Miejsce docelowe 5. Koszt zamówienia" << endl;
+    if (size == 0) {
+        newOrder[size] = new Order;
+        string input;
+        getline(cin, input);
+                
+        vector<string> words;
+                
+        size_t start = 0, end;
+        while ((end = input.find(' ', start)) != string::npos) {
+            words.push_back(input.substr(start, end - start));
+            start = end + 1;
+        }
+        words.push_back(input.substr(start));
+        
+        words[0][0] = toupper(words[0][0]);
+        words[1][0] = toupper(words[1][0]);
+        words[2][0] = toupper(words[2][0]);
+        words[3][0] = toupper(words[3][0]);
+        for (int i = 0; i < 4; i++) {
+            for (int j = 1; j < words.at(i).size(); j++) {
+                words[i][j] = tolower(words[i][j]);
+            }
+        }
+        newOrder[size]->customerName.firstName = words.at(0);
+        newOrder[size]->customerName.lastName = words.at(1);
+        newOrder[size]->pickupLocation = words.at(2);
+        newOrder[size]->dropoffLocation = words.at(3);
+        newOrder[size]->amount = stoi(words.at(4));
+        newOrder[size]->completed = false;
+    }
+    else {
+        for (int i = 0; i < size; i++) {
+            newOrder[i] = order[i];
+        }
+        newOrder[size] = new Order;
+        string input;
+        getline(cin, input);
+                
+        vector<string> words;
+                
+        size_t start = 0, end;
+        while ((end = input.find(' ', start)) != string::npos) {
+            words.push_back(input.substr(start, end - start));
+            start = end + 1;
+        }
+        words.push_back(input.substr(start));
+        
+        words[0][0] = toupper(words[0][0]);
+        words[1][0] = toupper(words[1][0]);
+        words[2][0] = toupper(words[2][0]);
+        words[3][0] = toupper(words[3][0]);
+        for (int i = 0; i < 4; i++) {
+            for (int j = 1; j < words.at(i).size(); j++) {
+                words[i][j] = tolower(words[i][j]);
+            }
+        }
+        newOrder[size]->customerName.firstName = words.at(0);
+        newOrder[size]->customerName.lastName = words.at(1);
+        newOrder[size]->pickupLocation = words.at(2);
+        newOrder[size]->dropoffLocation = words.at(3);
+        newOrder[size]->amount = stoi(words.at(4));
+        newOrder[size]->completed = false;
+    }
+    order = newOrder;
+    size++;
+    cout << "Dodano nowe zamówienie." << endl << endl;
+}

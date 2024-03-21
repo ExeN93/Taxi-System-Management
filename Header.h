@@ -16,11 +16,6 @@
 
 using namespace std;
 
-// Stałe dla maksymalnej liczby kierowców, samochodów i zamówień
-const int MAX_DRIVERS = 100;
-const int MAX_CARS = 100;
-const int MAX_ORDERS = 100;
-
 // Struktura reprezentująca imię i nazwisko
 struct Name {
     string firstName;
@@ -30,7 +25,7 @@ struct Name {
 // Struktura reprezentująca kierowcę
 struct Driver {
     Name driverName;
-    string licenseNumber;
+    int licenseNumber;
     int experience; // w latach
 };
 
@@ -52,22 +47,26 @@ struct Order {
 
 // Struktura reprezentująca firmę taksówkarską
 struct TaxiCompany {
-    Driver* drivers[MAX_DRIVERS];
-    Car* cars[MAX_CARS];
-    Order* orders[MAX_ORDERS];
+    Driver** drivers;
+    Car** cars;
+    Order** orders;
     int driverCount = 0;
     int carCount = 0;
     int orderCount = 0;
 };
 
-void hireDriver(TaxiCompany& company);
-void addCar(TaxiCompany& company);
-void placeOrder(TaxiCompany& company);
+void hireDriver(Driver**& driver, int &size);
+void deleteDriver(Driver**& driver, int &size);
+void addCar(Car**& car, int &size);
+void deleteCar(Car**& car, int &size);
+void placeOrder(Order**& order, int &size);
+void deleteAllOrders(Order**& order, int &size);
 double calculateTotalEarnings(const TaxiCompany& company);
 void showDrivers(const TaxiCompany& company);
 void showOrders(const TaxiCompany& company);
 void showCars(const TaxiCompany& company);
 void generateAllData(TaxiCompany& company);
+void parsingPlaceOrder (Order**& order, int &size);
 void clearMemory(TaxiCompany& company);
 void showMenu();
 
