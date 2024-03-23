@@ -17,23 +17,49 @@
 using namespace std;
 
 // Struktura reprezentująca imię i nazwisko
-struct Name {
+class Name {
+private:
     string firstName;
     string lastName;
+public:
+    string getFirstName(){return firstName;}
+    string getLastName(){return lastName;}
+    void setFirstName (string firstname) {
+        firstName = firstname;
+    }
+    void setLastName (string lastname) {
+        lastName = lastname;
+    }
 };
 
 // Struktura reprezentująca kierowcę
-struct Driver {
+class Driver {
+private:
     Name driverName;
     int licenseNumber;
     int experience; // w latach
+public:
+    int getLicenseNumber(){return licenseNumber;}           // tutaj muszę dodać w public: Name drivername;
+    int getExperience(){return experience;}
+    void setLicenseNumber (int licensenumber) {
+        licenseNumber = licensenumber;
+    }
+    void setExperience (int experience) {
+        experience = experience;
+    }
 };
 
 // Struktura reprezentująca samochód
-struct Car {
+class Car {
+private:
     string brand;
     string model;
     string plateNumber;
+public:
+    string getBrand(){return brand;}
+    string getModel(){return model;}
+    string getPlateNumber(){return plateNumber;}
+    void setBrand 
 };
 
 // Struktura reprezentująca zamówienie
