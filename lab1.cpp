@@ -12,45 +12,57 @@
 void hireDriver(Driver**& driver, int &size) {
     Driver** newDriver = new Driver * [size + 1];
     if (size == 0) {
+        string firstName, lastName;
+        int numberLicense, experience;
         newDriver[size] = new Driver;
         cout << "Podaj imię kierowcy: ";
-        cin >> newDriver[size]->driverName.firstName;
+        cin >> firstName;
+        newDriver[size]->setDriverFirstName(firstName);
         cout << "Podaj nazwisko kierowcy: ";
-        cin >> newDriver[size]->driverName.lastName;
+        cin >> lastName;
+        newDriver[size]->setDriverLastName(lastName);
         cout << "Podaj numer licencji kierowcy (5 cyfr): ";
-        cin >> newDriver[size]->licenseNumber;
-        while((newDriver[size]->licenseNumber < 10000) || (newDriver[size]->licenseNumber > 99999)) {
+        cin >> numberLicense;
+        while((numberLicense < 10000) || (numberLicense > 99999)) {
             cout << "Numer licencji ma nieprawidłową ilość znaków, podaj ponownie (5 cyfr): ";
-            cin >> newDriver[size]->licenseNumber;
+            cin >> numberLicense;
         }
+        newDriver[size]->setLicenseNumber(numberLicense);
         cout << "Podaj doświadczenie kierowcy (lata) (maksymalnie 2 cyfry): ";
-        cin >> newDriver[size]->experience;
-        while (newDriver[size]->experience < 1 || newDriver[size]->experience > 99) {
+        cin >> experience;
+        while (experience < 1 || experience > 99) {
             cout << "Kłamiesz ze swoim doświadczeniem, podaj prawidłowe! (maksymalnie 2 cyfry): ";
-            cin >> newDriver[size]->experience;
+            cin >> experience;
         }
+        newDriver[size]->setExperience(experience);
     }
     else {
         for (int i = 0; i < size; i++) {
             newDriver[i] = driver[i];
         }
+        string firstName, lastName;
+        int numberLicense, experience;
         newDriver[size] = new Driver;
         cout << "Podaj imię kierowcy: ";
-        cin >> newDriver[size]->driverName.firstName;
+        cin >> firstName;
+        newDriver[size]->setDriverFirstName(firstName);
         cout << "Podaj nazwisko kierowcy: ";
-        cin >> newDriver[size]->driverName.lastName;
+        cin >> lastName;
+        newDriver[size]->setDriverLastName(lastName);
         cout << "Podaj numer licencji kierowcy (5 cyfr): ";
-        cin >> newDriver[size]->licenseNumber;
-        while((newDriver[size]->licenseNumber < 10000) || (newDriver[size]->licenseNumber > 99999)) {
+        cin >> numberLicense;
+        while((numberLicense < 10000) || (numberLicense > 99999)) {
             cout << "Numer licencji ma nieprawidłową ilość znaków, podaj ponownie (5 cyfr): ";
-            cin >> newDriver[size]->licenseNumber;
+            cin >> numberLicense;
         }
+        newDriver[size]->setLicenseNumber(numberLicense);
         cout << "Podaj doświadczenie kierowcy (lata) (maksymalnie 2 cyfry): ";
-        cin >> newDriver[size]->experience;
-        while (newDriver[size]->experience < 1 || newDriver[size]->experience > 99) {
+        cin >> experience;
+        while (experience < 1 || experience > 99) {
             cout << "Kłamiesz ze swoim doświadczeniem, podaj prawidłowe! (maksymalnie 2 cyfry): ";
-            cin >> newDriver[size]->experience;
+            cin >> experience;
         }
+        newDriver[size]->setExperience(experience);
         delete[] driver;
     }
     driver = newDriver;
@@ -65,7 +77,7 @@ void deleteDriver(Driver**& driver, int &size) {
     int index = -1;
     cin >> idLicense;
     for (int i = 0; i < size; i++) {
-        if(idLicense == driver[i]->licenseNumber) {
+        if(idLicense == driver[i]->getLicenseNumber()) {
             index = i;
             break;
         }
@@ -92,33 +104,41 @@ void deleteDriver(Driver**& driver, int &size) {
 void addCar(Car**& car, int &size) {
     Car** newCar = new Car * [size + 1];
     if (size == 0) {
+        string brand, model, plateNumber;
         newCar[size] = new Car;
         cout << "Podaj markę samochodu: ";
-        cin >> newCar[size]->brand;
+        cin >> brand;
+        newCar[size]->setBrand(brand);
         cout << "Podaj model samochodu: ";
-        cin >> newCar[size]->model;
+        cin >> model;
+        newCar[size]->setModel(model);
         cout << "Podaj numer rejestracyjny samochodu (5 cyfr): ";
-        cin >> newCar[size]->plateNumber;
-        while(newCar[size]->plateNumber.length() != 5) {
+        cin >> plateNumber;
+        while(plateNumber.length() != 5) {
             cout << "Numer rejestracyjny nieprawidłowy, podaj ponownie (5 cyfr): ";
-            cin >> newCar[size]->plateNumber;
+            cin >> plateNumber;
         }
+        newCar[size]->setPlateNumber(brand);
     }
     else {
         for (int i = 0; i < size; i++) {
             newCar[i] = car[i];
         }
+        string brand, model, plateNumber;
         newCar[size] = new Car;
         cout << "Podaj markę samochodu: ";
-        cin >> newCar[size]->brand;
+        cin >> brand;
+        newCar[size]->setBrand(brand);
         cout << "Podaj model samochodu: ";
-        cin >> newCar[size]->model;
+        cin >> model;
+        newCar[size]->setModel(model);
         cout << "Podaj numer rejestracyjny samochodu (5 cyfr): ";
-        cin >> newCar[size]->plateNumber;
-        while(newCar[size]->plateNumber.length() != 5) {
+        cin >> plateNumber;
+        while(plateNumber.length() != 5) {
             cout << "Numer rejestracyjny nieprawidłowy, podaj ponownie (5 cyfr): ";
-            cin >> newCar[size]->plateNumber;
+            cin >> plateNumber;
         }
+        newCar[size]->setPlateNumber(brand);
         delete[] car;
     }
     car = newCar;
@@ -132,7 +152,7 @@ void deleteCar(Car**& car, int &size) {
     int index = -1;
     cin >> idLicense;
     for (int i = 0; i < size; i++) {
-        if(idLicense.compare(car[i]->plateNumber) == 0) {
+        if(idLicense.compare(car[i]->getPlateNumber()) == 0) {
             index = i;
             break;
         }
@@ -159,34 +179,51 @@ void deleteCar(Car**& car, int &size) {
 void placeOrder(Order**& order, int &size) {
     Order** newOrder = new Order * [size + 1];
     if (size == 0) {
+        string firstName, lastName, pickupLocation, dropoffLocation;
+        int amount;
         newOrder[size] = new Order;
         cout << "Podaj imię klienta: ";
-        cin >> newOrder[size]->customerName.firstName;
+        cin >> firstName;
+        newOrder[size]->setCustomerFirstName(firstName);
         cout << "Podaj nazwisko klienta: ";
-        cin >> newOrder[size]->customerName.lastName;
+        cin >> lastName;
+        newOrder[size]->setCustomerLastName(lastName);
         cout << "Podaj miejsce odbioru: ";
-        cin >> newOrder[size]->pickupLocation;
+        cin >> pickupLocation;
+        newOrder[size]->setPickupLocation(pickupLocation);
         cout << "Podaj miejsce docelowe: ";
-        cin >> newOrder[size]->dropoffLocation;
+        cin >> dropoffLocation;
+        newOrder[size]->setDropOffLocation(dropoffLocation);
         cout << "Podaj kwotę zamówienia: ";
-        cin >> newOrder[size]->amount;
-        newOrder[size]->completed = false;
+        cin >> amount;
+        newOrder[size]->setOrderId(size);
+        newOrder[size]->setAmount(amount);
+        newOrder[size]->setCompleted(false);
     }
     else {
         for (int i = 0; i < size; i++) {
             newOrder[i] = order[i];
         }
+        string firstName, lastName, pickupLocation, dropoffLocation;
+        int amount;
+        newOrder[size] = new Order;
         cout << "Podaj imię klienta: ";
-        cin >> newOrder[size]->customerName.firstName;
+        cin >> firstName;
+        newOrder[size]->setCustomerFirstName(firstName);
         cout << "Podaj nazwisko klienta: ";
-        cin >> newOrder[size]->customerName.lastName;
+        cin >> lastName;
+        newOrder[size]->setCustomerLastName(lastName);
         cout << "Podaj miejsce odbioru: ";
-        cin >> newOrder[size]->pickupLocation;
+        cin >> pickupLocation;
+        newOrder[size]->setPickupLocation(pickupLocation);
         cout << "Podaj miejsce docelowe: ";
-        cin >> newOrder[size]->dropoffLocation;
+        cin >> dropoffLocation;
+        newOrder[size]->setDropOffLocation(dropoffLocation);
         cout << "Podaj kwotę zamówienia: ";
-        cin >> newOrder[size]->amount;
-        newOrder[size]->completed = false;
+        cin >> amount;
+        newOrder[size]->setOrderId(size);
+        newOrder[size]->setAmount(amount);
+        newOrder[size]->setCompleted(false);
         delete[] order;
     }
     order = newOrder;
@@ -197,7 +234,7 @@ void placeOrder(Order**& order, int &size) {
 void deleteAllOrders(Order**& order, int &size) {
     int idCompleted = 0;
     for (int i = 0; i < size; i++) {
-        if (order[i]->completed == true) {
+        if (order[i]->getCompleted() == true) {
             idCompleted++;
         }
     }
@@ -209,8 +246,10 @@ void deleteAllOrders(Order**& order, int &size) {
         Order** newOrder = new Order * [size - idCompleted];
         int j = 0;
         for (int i = 0; i < size; i++) {
-            if (order[i]->completed == false) {
+            if (order[i]->getCompleted() == false) {
                 newOrder[j] = newOrder[i];
+                newOrder[j]->setOrderId(j);
+                j++;
             }
         }
         delete[] order;
@@ -220,32 +259,33 @@ void deleteAllOrders(Order**& order, int &size) {
     }
 }
 
-double calculateTotalEarnings(const TaxiCompany& company) {
+double calculateTotalEarnings(TaxiCompany& company) {
     double totalEarnings = 0;
-    for (int i = 0; i < company.orderCount; ++i) {
-        totalEarnings += company.orders[i]->amount;
+    for (int i = 0; i < company.getOrderCount(); ++i) {
+        totalEarnings += company.getOneOrder(i)->getAmount();
     }
     return totalEarnings;
 }
 
-void showDrivers(const TaxiCompany& company) {
+void showDrivers(TaxiCompany& company) {
     cout << endl << "=== LISTA KIEROWCÓW ===" << endl << endl;
-    for (int i = 0; i < company.driverCount; ++i) {
-        cout << "Imię i nazwisko: " << company.drivers[i]->driverName.firstName << " " << company.drivers[i]->driverName.lastName << endl;
-        cout << "Numer licencji: " << company.drivers[i]->licenseNumber << endl;
-        cout << "Doświadczenie (lata): " << company.drivers[i]->experience << endl << endl;
+    for (int i = 0; i < company.getDriverCount(); ++i) {
+        cout << "Imię i nazwisko: " << company.getOneDriver(i)->getDriverFirstName() << " " << company.getOneDriver(i)->getDriverFirstName() << endl;
+        cout << "Numer licencji: " << company.getOneDriver(i)->getLicenseNumber() << endl;
+        cout << "Doświadczenie (lata): " << company.getOneDriver(i)->getExperience() << endl << endl;
     }
 }
 
-void showOrders(const TaxiCompany& company) {
+void showOrders(TaxiCompany& company) {
     cout << endl << "=== LISTA ZAMÓWIEŃ ===" << endl;
-    for (int i = 0; i<company.orderCount; i++) {
-        cout << "Imię i nazwisko: " << company.orders[i]->customerName.firstName << " " << company.orders[i]->customerName.lastName << endl;
-        cout << "Miejsce odbioru: " << company.orders[i]->pickupLocation << endl;
-        cout << "Miejsce docelowe: " << company.orders[i]->dropoffLocation << endl;
-        cout << "Koszt: " << company.orders[i]->amount << endl;
+    for (int i = 0; i<company.getOrderCount(); i++) {
+        cout << "Imię i nazwisko: " << company.getOneOrder(i)->getCustomerFirstName() << " " << company.getOneOrder(i)->getCustomerLastName() << endl;
+        cout << "Miejsce odbioru: " << company.getOneOrder(i)->getPickupLocation() << endl;
+        cout << "Miejsce docelowe: " << company.getOneOrder(i)->getDropOffLocation() << endl;
+        cout << "Id: " << company.getOneOrder(i)->getOrderId() << endl;
+        cout << "Koszt: " << company.getOneOrder(i)->getAmount() << endl;
         cout << "Status zamówienia: ";
-        if (company.orders[i]->completed == false) {
+        if (company.getOneOrder(i)->getCompleted() == false) {
             cout << "Niezrealizowany" << endl << endl;
         }
         else {
@@ -254,26 +294,39 @@ void showOrders(const TaxiCompany& company) {
     }
 }
 
-void showCars(const TaxiCompany& company) {
+void showCars(TaxiCompany& company) {
     cout << endl << "=== FLOTA POJAZDÓW ===" << endl << endl;
-    for (int i = 0; i < company.carCount; ++i) {
-        cout << "Marka: " << company.cars[i]->brand << endl;
-        cout << "Model: " << company.cars[i]->model << endl;
-        cout << "Numer rejestracyjny: " << company.cars[i]->plateNumber << endl << endl;
+    for (int i = 0; i < company.getCarCount(); ++i) {
+        cout << "Marka: " << company.getOneCar(i)->getBrand() << endl;
+        cout << "Model: " << company.getOneCar(i)->getModel() << endl;
+        cout << "Numer rejestracyjny: " << company.getOneCar(i)->getPlateNumber() << endl << endl;
     }
 }
 
 void clearMemory(TaxiCompany& company) {
-    for (int i = 0; i < company.driverCount; ++i) {
-        delete company.drivers[i];
+    for (int i = 0; i < company.getDriverCount(); ++i) {
+        delete company.getOneDriver(i);
     }
 
-    for (int i = 0; i < company.carCount; ++i) {
-        delete company.cars[i];
+    for (int i = 0; i < company.getCarCount(); ++i) {
+        delete company.getOneCar(i);
     }
 
-    for (int i = 0; i < company.orderCount; ++i) {
-        delete company.orders[i];
+    for (int i = 0; i < company.getOrderCount(); ++i) {
+        delete company.getOneOrder(i);
+    }
+}
+
+void completeOrder(Order**& orders, int &size, TaxiCompany &company) {
+    showOrders(company);
+    int id;
+    cout << "Podaj id zamówienia: ";
+    cin >> id;
+    for (int i = 0; i < size; i++) {
+        if (orders[i]->getOrderId() == id) {
+            orders[i]->setCompleted(true);
+            break;
+        }
     }
 }
 
@@ -284,14 +337,14 @@ void showMenu() {
     cout << "3. Dodaj nowy samochód" << endl;
     cout << "4. Usuń samochód." << endl;
     cout << "5. Dodaj zamówienie" << endl;
-    cout << "6. Usuń wszystkie zakończone zamówienia." << endl;
-    cout << "7. Wyświetl listę kierowców" << endl;
-    cout << "8. Wyświetl listę zamówień" << endl;
-    cout << "9. Wyświetl flotę pojazdów" << endl;
-    cout << "10. Oblicz całkowity zarobek" << endl;
-    cout << "11. Generuj bazę danych" << endl;
-    cout << "12. Dodaj zamówienie (z opcją parsowania)" << endl;
-    cout << "13. Wyjście" << endl;
+    cout << "6. Zmień status zamówienia na zakończony" << endl;
+    cout << "7. Usuń wszystkie zakończone zamówienia" << endl;
+    cout << "8. Wyświetl listę kierowców" << endl;
+    cout << "9. Wyświetl listę zamówień" << endl;
+    cout << "10. Wyświetl flotę pojazdów" << endl;
+    cout << "11. Oblicz całkowity zarobek" << endl;
+    cout << "12. Generuj bazę danych" << endl;
+    cout << "13. Dodaj zamówienie (z opcją parsowania)" << endl;
+    cout << "14. Wyjście" << endl;
     cout << "Wybierz opcję: ";
 }
-

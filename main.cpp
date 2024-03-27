@@ -10,10 +10,6 @@
 int main() {
     setlocale(LC_ALL, "");
     TaxiCompany company;
-    company.drivers = nullptr;
-    company.cars = nullptr;
-    company.orders = nullptr;
-
     int choice;
     bool exit = false;
 
@@ -24,42 +20,45 @@ int main() {
 
         switch (choice) {
             case 1:
-                hireDriver(company.drivers, company.driverCount);
+                hireDriver(company.getDrivers(), company.getDriverCount());
                 break;
             case 2:
-                deleteDriver(company.drivers, company.driverCount);
+                deleteDriver(company.getDrivers(), company.getDriverCount());
                 break;
             case 3:
-                addCar(company.cars, company.carCount);
+                addCar(company.getCars(), company.getCarCount());
                 break;
             case 4:
-                deleteCar(company.cars, company.carCount);
+                deleteCar(company.getCars(), company.getCarCount());
                 break;
             case 5:
-                placeOrder(company.orders, company.orderCount);
+                placeOrder(company.getOrders(), company.getOrderCount());
                 break;
             case 6:
-                deleteAllOrders(company.orders, company.orderCount);
+                completeOrder(company.getOrders(), company.getOrderCount(), company);
                 break;
             case 7:
-                showDrivers(company);
+                deleteAllOrders(company.getOrders(), company.getOrderCount());
                 break;
             case 8:
-                showOrders(company);
+                showDrivers(company);
                 break;
             case 9:
-                showCars(company);
+                showOrders(company);
                 break;
             case 10:
-                cout << "Całkowity zarobek: " << calculateTotalEarnings(company) << endl << endl;
+                showCars(company);
                 break;
             case 11:
-                generateAllData(company);
+                cout << "Całkowity zarobek: " << calculateTotalEarnings(company) << endl << endl;
                 break;
             case 12:
-                parsingPlaceOrder (company.orders, company.orderCount);
+                generateAllData(company);
                 break;
             case 13:
+                parsingPlaceOrder (company.getOrders(), company.getOrderCount());
+                break;
+            case 14:
                 exit = true;
                 clearMemory(company);
                 break;

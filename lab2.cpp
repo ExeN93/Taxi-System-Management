@@ -29,14 +29,14 @@ void generateAllData(TaxiCompany& company) {
         static uniform_int_distribution<int> nazwisko(0, 7);
         size_t indexImie = imie(engine);
         size_t indexNazwisko = nazwisko(engine);
-        newDriver[i]->driverName.firstName = imiona[indexImie];
-        newDriver[i]->driverName.lastName = nazwiska[indexNazwisko];
+        newDriver[i]->setDriverFirstName(string(imiona[indexImie]));
+        newDriver[i]->setDriverLastName(string(nazwiska[indexNazwisko]));
         
         static uniform_int_distribution<int> numerLicencji(0, 99999);
-        newDriver[i]->licenseNumber = numerLicencji(engine);
+        newDriver[i]->setLicenseNumber(numerLicencji(engine));
         
         static uniform_int_distribution<int> doswiadczenie(0, 99);
-        newDriver[i]->experience = doswiadczenie(engine);
+        newDriver[i]->setExperience(doswiadczenie(engine));
         
         cout << "Dodano nowego kierowcę." << endl;
     }
@@ -49,9 +49,9 @@ void generateAllData(TaxiCompany& company) {
         size_t indexMarkaAuta = marka(engine);
         size_t indexModelAuta = model(engine);
         size_t indexNumerRejestracyjnyAuta = numerRejestracyjny(engine);
-        newCar[i]->brand = markiAut[indexMarkaAuta];
-        newCar[i]->model = modeleAut[indexModelAuta];
-        newCar[i]->plateNumber = numerRejestracyjnyAuta[indexNumerRejestracyjnyAuta];
+        newCar[i]->setBrand(string(markiAut[indexMarkaAuta]));
+        newCar[i]->setModel(string(modeleAut[indexModelAuta]));
+        newCar[i]->setPlateNumber(string(numerRejestracyjnyAuta[indexNumerRejestracyjnyAuta]));
         
         cout << "Dodano nowy samochód." << endl;
     }
@@ -66,24 +66,25 @@ void generateAllData(TaxiCompany& company) {
         size_t indexNazwisko = nazwisko(engine);
         size_t indexMiejsceOdbioru = miejsceOdbioru(engine);
         size_t indexMiejsceDocelowe = miejsceDocelowe(engine);
-        newOrder[i]->customerName.firstName = imiona[indexImie];
-        newOrder[i]->customerName.lastName = nazwiska[indexNazwisko];
-        newOrder[i]->pickupLocation = miejscaOdbioru[indexMiejsceOdbioru];
-        newOrder[i]->dropoffLocation = miejscaDocelowe[indexMiejsceDocelowe];
+        newOrder[i]->setCustomerFirstName(string(imiona[indexImie]));
+        newOrder[i]->setCustomerLastName(string(nazwiska[indexNazwisko]));
+        newOrder[i]->setPickupLocation(string(miejscaOdbioru[indexMiejsceOdbioru]));
+        newOrder[i]->setDropOffLocation(string(miejscaDocelowe[indexMiejsceDocelowe]));
     
         static uniform_int_distribution<int> kwota(0, 100);
-        newOrder[i]->amount = kwota(engine);
+        newOrder[i]->setAmount(kwota(engine));
     
-        newOrder[i]->completed = false;
+        newOrder[i]->setCompleted(false);
+        newOrder[i]->setOrderId(i);
         
         cout << "Dodano nowe zamówienie." << endl;
     }
-    company.cars = newCar;
-    company.drivers = newDriver;
-    company.orders = newOrder;
-    company.carCount = size;
-    company.driverCount = size;
-    company.orderCount = size;
+    company.setCars(newCar);
+    company.setDrivers(newDriver);
+    company.setOrders(newOrder);
+    company.setCarCount(size);
+    company.setDriverCount(size);
+    company.setOrderCount(size);
     cout << "Poprawnie wygenerowano bazę." << endl << endl;
 }
 
@@ -113,12 +114,12 @@ void parsingPlaceOrder(Order**& order, int &size) {
                 words[i][j] = tolower(words[i][j]);
             }
         }
-        newOrder[size]->customerName.firstName = words.at(0);
-        newOrder[size]->customerName.lastName = words.at(1);
-        newOrder[size]->pickupLocation = words.at(2);
-        newOrder[size]->dropoffLocation = words.at(3);
-        newOrder[size]->amount = stoi(words.at(4));
-        newOrder[size]->completed = false;
+        newOrder[size]->setCustomerFirstName(words.at(0));
+        newOrder[size]->setCustomerLastName(words.at(1));
+        newOrder[size]->setPickupLocation(words.at(2));
+        newOrder[size]->setDropOffLocation(words.at(3));
+        newOrder[size]->setAmount(stoi(words.at(4)));
+        newOrder[size]->setCompleted(false);
     }
     else {
         for (int i = 0; i < size; i++) {
@@ -146,12 +147,12 @@ void parsingPlaceOrder(Order**& order, int &size) {
                 words[i][j] = tolower(words[i][j]);
             }
         }
-        newOrder[size]->customerName.firstName = words.at(0);
-        newOrder[size]->customerName.lastName = words.at(1);
-        newOrder[size]->pickupLocation = words.at(2);
-        newOrder[size]->dropoffLocation = words.at(3);
-        newOrder[size]->amount = stoi(words.at(4));
-        newOrder[size]->completed = false;
+        newOrder[size]->setCustomerFirstName(words.at(0));
+        newOrder[size]->setCustomerLastName(words.at(1));
+        newOrder[size]->setPickupLocation(words.at(2));
+        newOrder[size]->setDropOffLocation(words.at(3));
+        newOrder[size]->setAmount(stoi(words.at(4)));
+        newOrder[size]->setCompleted(false);
     }
     order = newOrder;
     size++;
