@@ -8,11 +8,7 @@
 
 ## Installation
 ```bash
-git clone https://github.com/user/taxi-system.git
-cd taxi-system
-pip install -r requirements.txt
-python manage.py migrate
-python manage.py runserver
+git clone https://github.com/exen93/taxi-system-management
 ```
 
 ## License
